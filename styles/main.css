@@ -1,0 +1,345 @@
+body{
+    background:transparent;/*url('../gfx/trenujTlo2.jpg') no-repeat;*/
+    height:100vh;
+    min-height: -webkit-fill-available;
+    /*background-size:cover;
+    background-attachment:fixed;
+    background-image: linear-gradient(to bottom right, rgb(96,96,96), #000);*/
+    overflow:auto;
+}
+html{
+    min-height: -webkit-fill-available;
+    /*background-color:#444;*/
+    background-image: linear-gradient(to bottom right, rgb(96,96,96), #000);
+    background-size:cover;
+    background-attachment:fixed;
+}
+
+input[type=number] {
+    -moz-appearance:textfield !important;
+}
+
+.md-dark { color: rgba(0, 0, 0, 0.7) !important; }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+.md-light { color: rgba(255, 255, 255, 0.7) !important;}
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+.dolnyToolbar{
+    position: fixed;
+    bottom:0;
+}
+.labelDolnegoToolbara{
+    margin-top:-12px;
+    font-size:8px;
+    font-weight:500;
+    text-transform:lowercase;
+    text-align:center;
+    letter-spacing:0.14px;
+    line-height:1.5;
+}
+.logo{
+    width: 64px;
+    box-shadow: 0 0 30px 0 rgba(0,0,0,.25);
+    border-radius: 2px;
+    margin: 8px 0 16px 0;
+}
+.logo2{
+    width: 40px;
+    box-shadow: 0 0 60px 0 rgba(0,0,0,.5);
+    border-radius: 2px;
+    margin: 0 7px 0 -7px;
+}
+.logo3{
+    width: 40px;
+    box-shadow: 0 0 60px 0 rgba(0,0,0,.5);
+    border-radius: 2px;
+}
+
+.okoHaslowe{
+    opacity: 0.6;
+    margin-top: -2px !important;
+}
+.inputHaslowy{
+    width:calc(100% + 34px) !important;
+}
+
+.naroznik{
+    position: absolute;
+    top: 0;
+    right: 0px;
+    padding: 3px;
+    border-radius: 50%;
+    font-size:0.8em;
+    display:block;
+    width:25px;
+    height:25px;
+    text-align:center;
+}
+.naroznikLewy{
+    position: absolute;
+    top: 0;
+    left: 0px;
+    padding: 3px;
+    border-radius: 50%;
+    font-size:0.8em;
+    display:block;
+    width:25px;
+    height:25px;
+    text-align:center;
+}
+
+.sideNavRobiProblemy > div{
+    width:100%;
+    cursor:pointer;
+    transition:color .2s, background-color .2s;
+    border:1px solid transparent;
+    position:relative;
+}
+.sideNavRobiProblemy > div:hover, .aktualnyUrl{
+    background-color:#99999933;
+    /*border:1px solid #99999933;*/
+}
+.sideNavRobiProblemy > div > span:nth-child(1){
+    padding: 0 16px 0 0;
+}
+.sideNavRobiProblemy .baton{
+    box-shadow:none !important;
+}
+.textAlignRight{
+    text-align:right;
+}
+
+.gornyToolbar{
+    color: #444 !important;
+    background-color: white !important;
+}
+.dokladnie40px{
+    min-width:40px !important;
+}
+
+.noShadow{
+    box-shadow:none !important;
+}
+.stronaPowitalna{
+    max-width:600px;
+    /*overflow:auto;*/
+}
+.szer100pro{
+    width:100%;
+}
+.margin16{
+    margin:16px;
+}
+.margin8{
+    margin:8px;
+}
+.margin0{
+    margin:0 !important;
+}
+.marginTop-3{
+    margin-top:-3px;
+}
+.marginBottom-0{
+    margin-bottom:0;
+}
+.marginLeft-16{
+    margin-left:16px;
+}
+.stopka{
+    position:relative;
+    bottom:0;
+    color:#fff;
+    padding:16px
+}
+a, a:hover, a:visited, a:focus{
+    text-decoration:none;
+    font-size:.8em;
+    color:#fff;
+}
+.oNas{
+    font-size:1.2em;
+    padding:32px;
+    color:white;
+    text-align:center;
+    /*background-color: rgb(3,169,244);*/
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+}
+.oNas h1{
+    margin:0;
+    font-size:1.5em;
+}
+.logowanie{
+    padding:32px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+}
+.rejestracja{
+    background-color:#fff;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+}
+.progressBarFixed{
+    position:fixed;
+    z-index:9999;
+    width:100%;
+}
+.loaderWtoolbarze{
+    position:fixed;
+    top:0;
+    left:0;
+}
+div, md-card{
+    outline:none;
+}
+#ngwju{
+    height:100%;
+}
+
+.menuTelefonowe{
+    height:100vh;position:fixed;bottom:0;right:-400px;z-index:100;margin:0;width:335px;opacity:0.5;
+    transition:right .3s, opacity .3s;
+}
+.menuTelefonowePokaz{
+    right:0px;
+    opacity:1;
+}
+.no-animate{
+    transition: none !important;
+    animation: none !important;
+}
+.width198{
+    width:198px;
+}
+.palec{
+    cursor:pointer;
+}
+.kontoBaton{
+    min-width:60px !important;
+    margin:6px !important;
+}
+.seriaBaton{
+    min-width:40px !important;
+}
+.cwiczenie > div{
+    margin: 16px 0;
+}
+.cwiczenie:first-child > div{
+    margin: 0 0 16px 0;
+}
+.cwiczenie:last-child > div{
+    margin: 16px 0 0 0;
+}
+td{
+    padding:16px 8px;
+    border-top:1px solid rgba(128,128,128,0.2);
+}
+th{
+    text-align:left;
+    padding:8px;
+}
+td:first-child,th:first-child{
+    padding-left:16px;
+}
+td:last-child,th:last-child{
+    padding-right:16px;
+}
+tr:first-child td{
+    border:none;
+}
+.superset{
+    margin-top:-40px !important;
+    transform:rotate(90deg);
+    position:absolute;
+}
+.trSuperset td{
+    border:none;
+}
+.jednostkaIntensywnosci > div{
+    font-size:0.7em;
+    padding:1px;
+    text-align:center;
+}
+.aktJednIntens{
+    
+}
+.krotkiInput{
+    width:50px;
+}
+.sredniInput{
+    width:70px;
+}
+.sesjaMoreBtn{
+    margin: -10px 0 0 0 !important;
+}
+
+/*md-input-container .md-placeholder, md-input-container label:not(.md-no-float):not(.md-container-ignore){
+    transform: translate3d(0,27px,0) scale(1);
+}
+md-input-container.md-input-has-value label:not(.md-no-float) {
+    transform: translate3d(0,6px,0) scale(.75);
+}*/
+md-input-container .md-errors-spacer {
+    min-height: 0px;
+}
+md-select.md-default-theme[disabled] .md-select-value, md-input-container.md-default-theme .md-input[disabled]{
+    color:rgba(0,0,0,0.87) !important;
+}
+/*md-content.md-default-theme{
+    background-color:rgb(245,245,245) !important;
+}*/
+
+md-select.md-ciemny-theme[disabled] .md-select-value, md-input-container.md-ciemny-theme .md-input[disabled]{
+    color: rgba(255,255,255,0.87);
+}
+
+@keyframes scaleUp {
+    from    { opacity: 0.3; /*transform: scale(0.8)*/; }
+}
+@keyframes scaleDown {
+    to    { opacity: 0.3; /*transform: scale(0.1)*/; }
+}
+
+    .ng-enter           { animation: scaleUp 0.5s both ease-in; z-index: 9999; }
+    .ng-leave           { animation: scaleDown 0.1s both ease-in; z-index: 8888; }
+
+    
+@media (min-width: 600px){
+    .oNas{
+        font-size:1.5em;
+    }
+    .oNas h1{
+        font-size:2em;
+    }
+}
+@media (min-width: 960px) {
+    .stronaPowitalna{
+        max-width:1000px;
+    }
+    .oNas{
+        text-align:left;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 2px;
+    }
+    .logowanie{
+        border-top-left-radius: 0;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 0;
+    }
+    .rejestracja{
+        border-top-left-radius: 0;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 0;
+    }
+}

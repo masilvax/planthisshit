@@ -1,0 +1,103 @@
+<md-toolbar layout="row" layout-align="space-between center" md-colors="temat == 'ciemny' ? {background: 'grey-800'} : {background: 'grey-A100'}">
+    <h1 ng-if="!ekranGtSm" class="md-toolbar-tools">{{lista.cwiklacz.login}}'s trainings</h1>
+    
+    <div ng-if="ekranGtSm" layout="row" layout-align="start">
+        
+        <md-button ng-click="przejdzDo(lang+'/myClients')" class="no-animate">
+            <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">arrow_back</md-icon>&nbsp;
+            <span>back to clients list</span>
+        </md-button>
+    
+        <md-button ng-if="!edycja" ng-click="dodajNowyTrening($event)" class="no-animate">
+            <md-icon ng-class="temat === 'default' ? 'md-dark' : 'md-light'" aria-label="..." class="material-icons marginTop-3">add</md-icon>&nbsp;
+            <span>create new plan</span>
+        </md-button>
+
+    </div>
+    
+    <div layout="row" layout-align="end center">
+        <!--{{kto.login}}
+        <md-button class="md-icon-button dokladnie40px" aria-label="logout" ng-click="wyloguj();">
+            <md-icon aria-label="..." md-colors="::{ color: 'grey-700' }" class="material-icons">power_settings_new</md-icon>
+        </md-button>-->
+        
+        <md-menu>
+        <md-button aria-label="Open menu with custom trigger" ng-click="$mdMenu.open()" style="min-width:60px;margin:6px;">
+            <md-icon aria-label="..." ng-class="temat === 'default' ? 'md-dark' : 'md-light'" class="material-icons">arrow_drop_down</md-icon>
+            <md-icon aria-label="..." ng-class="temat === 'default' ? 'md-dark' : 'md-light'" class="material-icons">person</md-icon>
+            
+        </md-button>
+        <md-menu-content ng-mouseleave="$mdMenu.close()">
+            <md-menu-item>
+            <md-button  ng-click="przejdzDo(lang+'/myAccount')">
+                <md-icon aria-label="..." class="material-icons">face</md-icon>
+                {{kto.login}}
+            </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+            <md-button ng-click="wyloguj();">
+                <md-icon aria-label="..." class="material-icons">power_settings_new</md-icon>
+                Log out
+            </md-button>
+            </md-menu-item>
+        </md-menu-content>
+        </md-menu>
+    </div>
+    <md-progress-linear md-mode="indeterminate" ng-show="loaderDanych" class="loaderWtoolbarze md-accent md-hue-3"></md-progress-linear>
+</md-toolbar>
+
+<div layout="row" flex layout-wrap style="padding:4px">
+    <md-card class="noShadow" ng-repeat="t in lista.treningi track by t.id" style="margin:4px">
+        <md-card-title ng-click="przejdzDo(lang+'/training/'+t.id)" style="padding:16px 16px 0;outline:none" class="palec">
+            <md-card-title-text>
+                <span class="md-headline" style="font-size:1.2em;line-height:1;padding:0 0 6px">{{t.nazwa}}</span>
+                <span class="md-subhead" ng-if="t.trener != kto.login" style="opacity:0.5;padding:0">trainer: {{t.trener}}</span>
+                <span class="md-subhead" ng-if="t.cwiklacz != kto.login" style="opacity:0.5;padding:0">athlete: {{t.cwiklacz}}</span>
+                <span class="md-subhead" style="opacity:0.5;padding:0">{{t.ile_sesji}} sessions ahead</span>
+            </md-card-title-text>
+        </md-card-title>
+        
+        <md-card-actions layout="row" layout-align="end center" style="margin: 0 0 4px">
+            <md-menu>
+            <md-button aria-label="more" ng-click="$mdMenu.open()" class="md-icon-button" style="margin:0 4px;">
+                <md-icon aria-label="..." ng-class="temat === 'default' ? 'md-dark' : 'md-light'" class="material-icons">more_horiz</md-icon>
+            </md-button>
+            
+            <md-menu-content>
+
+                <md-menu-item>
+                    <md-button ng-click="usunTrening($event,t.id,t.nazwa)">
+                        <md-icon aria-label="..." class="material-icons">delete</md-icon>
+                        delete
+                    </md-button>
+                </md-menu-item>
+                
+            </md-menu-content>
+            </md-menu>
+        </md-card-actions>
+        
+    </md-card>
+</div>
+
+<md-toolbar ng-if="!ekranGtSm" layout="row" layout-align="space-between center" style="z-index:-999;opacity:0;">
+    <h1 class="md-toolbar-tools">tego nie widać, margines dla mobilnych o wielkosci toolbara</h1>
+</md-toolbar>
+
+<md-toolbar ng-if="!ekranGtSm" class="dolnyToolbar" layout="row" layout-align="space-between center">
+
+    <md-button class="md-icon-button no-animate" aria-label="back" ng-click="przejdzDo(lang+'/myClients')">
+        <md-tooltip md-direction="top">back to clients list</md-tooltip>
+        <md-icon class="material-icons">arrow_back</md-icon>
+    </md-button>
+
+    <md-button class="md-icon-button no-animate" aria-label="edit" ng-click="dodajNowyTrening($event)">
+        <md-tooltip md-direction="top">create new plan</md-tooltip>
+        <md-icon class="material-icons">add</md-icon>
+    </md-button>
+
+    <md-button class="md-icon-button no-animate" aria-label="menu" ng-click="toggleRight()">
+        <md-icon class="material-icons">menu</md-icon>
+    </md-button>
+
+</md-toolbar>

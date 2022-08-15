@@ -1,0 +1,2 @@
+[03-Dec-2021 17:53:22 Europe/Warsaw] PHP Warning:  session_start(): open(/tmp/sess_839102b4e9ab4ec5f9435c622b8957c3, O_RDWR) failed: No such file or directory (2) in /core/session.php on line 11
+[03-Dec-2021 17:53:22 Europe/Warsaw] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /core/session.php:11) in /core/session.php on line 11

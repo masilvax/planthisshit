@@ -1,0 +1,125 @@
+<md-toolbar layout="row" layout-align="space-between center" md-colors="temat == 'ciemny' ? {background: 'grey-800'} : {background: 'grey-A100'}">
+    <h1 class="md-toolbar-tools">My Trainers</h1>
+
+    <div layout="row" layout-align="end center">
+        
+        <md-menu>
+        <md-button aria-label="Open menu with custom trigger" ng-click="$mdMenu.open()" style="min-width:60px;margin:6px;">
+            <md-icon aria-label="..." ng-class="temat === 'default' ? 'md-dark' : 'md-light'" class="material-icons">arrow_drop_down</md-icon>
+            <md-icon aria-label="..." ng-class="temat === 'default' ? 'md-dark' : 'md-light'" class="material-icons">person</md-icon>
+            
+        </md-button>
+        <md-menu-content ng-mouseleave="$mdMenu.close()">
+            <md-menu-item>
+            <md-button  ng-click="przejdzDo('en/myAccount')">
+                <md-icon aria-label="..." class="material-icons">face</md-icon>
+                {{kto.login}}
+            </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+            <md-button ng-click="wyloguj();">
+                <md-icon aria-label="..." class="material-icons">power_settings_new</md-icon>
+                Log out
+            </md-button>
+            </md-menu-item>
+        </md-menu-content>
+        </md-menu>
+    </div>
+    <md-progress-linear md-mode="indeterminate" ng-show="loaderDanych" class="loaderWtoolbarze md-accent md-hue-3"></md-progress-linear>
+</md-toolbar>
+
+<div layout="row" flex layout-wrap style="padding:4px 4px 0" ng-if="lista.potencjalniTrenerzy">
+    <md-card class="noShadow" ng-repeat="t in lista.potencjalniTrenerzy track by t.id_cwiklacza" style="margin:4px">
+        <md-card-content layout="row" layout-gt-xs="row" layout-align="center center" layout-wrap style="padding:0;">
+
+            <md-button class="md-icon-button md-accent md-hue-3 no-animate" aria-label="new">
+                <md-icon class="material-icons">hourglass_top</md-icon>
+            </md-button>
+            <div>{{t.login}}</div>
+
+            <md-button class="md-raised md-primary noShadow no-animate" style="margin-left:18px;" ng-click="odrzucTrenera($event,t.id,t.login)">
+                revoke invitation
+            </md-button>
+            
+        </md-card-content>
+
+    </md-card>
+</div>
+
+<div layout="row" flex layout-wrap style="padding:4px 4px 0" ng-if="lista.trenerzy">
+    <md-card class="noShadow" ng-repeat="t in lista.trenerzy track by t.id_cwiklacza" style="margin:4px">
+        <md-card-content layout="row" layout-align="center center" layout-wrap style="padding:4px 0 4px 16px">
+
+            <div>{{t.login}}</div>
+
+            <md-button class="md-icon-button no-animate" aria-label="remove" ng-click="odrzucTrenera($event,t.id,t.login)">
+                <md-tooltip md-direction="bottom">quit the coach</md-tooltip>
+                <md-icon class="material-icons">delete</md-icon>
+            </md-button>
+            
+        </md-card-content>
+
+    </md-card>
+</div>
+
+<div layout="row" flex layout-wrap style="padding:4px 4px 0">
+    <md-card class="noShadow"  flex="100" style="margin:4px">
+        <md-card-content layout="row" layout-align="center center" layout-wrap style="padding:16px">
+            <form ng-submit="szukajTrenerow()">
+                        <md-input-container style="margin:0">
+                            <label>find a trainer</label>
+                            <input type="text" ng-model="model.szukaj"/>
+                        </md-input-container>
+                        
+                        <md-button type="submit" class="md-icon-button no-animate" aria-label="remove">
+                            <md-tooltip md-direction="bottom">search for a trainer</md-tooltip>
+                            <md-icon class="material-icons">search</md-icon>
+                        </md-button>
+
+            </form>
+        </md-card-content>
+
+    </md-card>
+</div>
+
+<div layout="column"  ng-if="lista.znalezieniTrenerzy.trenerzy" style="padding:4px">
+    <md-card class="noShadow" ng-repeat="t in lista.znalezieniTrenerzy.trenerzy track by t.id" ng-if="lista.znalezieniTrenerzy.trenerzy.length > 0" style="margin:4px">
+        <md-card-content layout="row" layout-align="space-between center" layout-wrap style="padding:4px 0 4px 16px">
+
+            <div><span style="text-transform:uppercase">{{t.login}}</span> ({{t.ile_klientow}} clients)</div>
+            
+            <md-button class="md-raised md-primary noShadow" ng-click="zaprosTrenera($event,t.id,t.login)" class="no-animate">
+                invite
+            </md-button>
+            
+        </md-card-content>
+
+    </md-card>
+    
+    <md-card class="noShadow" ng-if="lista.znalezieniTrenerzy.trenerzy.length == 0" style="margin:4px">
+        <md-card-content layout="row" layout-gt-xs="row" layout-align="center center" layout-wrap style="padding:4px 0 4px 16px">
+
+            <div>No trainers by the given name found. Please try some other search phrase.</div>
+            
+        </md-card-content>
+
+    </md-card>
+    
+</div>
+
+<md-toolbar ng-if="!ekranGtSm" layout="row" layout-align="space-between center" style="z-index:-999;opacity:0;">
+    <h1 class="md-toolbar-tools">tego nie widać, margines dla mobilnych o wielkosci toolbara</h1>
+</md-toolbar>
+
+<md-toolbar ng-if="!ekranGtSm" class="dolnyToolbar" layout="row" layout-align="space-between center">
+
+    <md-button class="md-icon-button no-animate" aria-label="empty"></md-button>
+
+
+
+    <md-button class="md-icon-button no-animate" aria-label="menu" ng-click="toggleRight()">
+        <md-icon class="material-icons">menu</md-icon>
+    </md-button>
+
+</md-toolbar>

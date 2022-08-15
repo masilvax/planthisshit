@@ -1,0 +1,173 @@
+<md-toolbar layout="row" layout-align="space-between center" md-colors="temat == 'ciemny' ? {background: 'grey-800'} : {background: 'grey-A100'}">
+    <h1 class="md-toolbar-tools">How It Works</h1>
+    <div layout="row" layout-align="end center">
+                <!--{{kto.login}}
+                <md-button class="md-icon-button dokladnie40px" aria-label="logout" ng-click="wyloguj();">
+                    <md-icon aria-label="..." md-colors="::{ color: 'grey-700' }" class="material-icons">power_settings_new</md-icon>
+                </md-button>-->
+                
+        <md-menu>
+            <md-button aria-label="Open menu with custom trigger" ng-click="$mdMenu.open()" style="min-width:60px;margin:6px;">
+                <md-icon aria-label="..."  ng-class="temat === 'default' ? 'md-dark' : 'md-light'" class="material-icons">arrow_drop_down</md-icon>
+                <md-icon aria-label="..."  ng-class="temat === 'default' ? 'md-dark' : 'md-light'" class="material-icons">person</md-icon>
+                    
+            </md-button>
+            <md-menu-content ng-mouseleave="$mdMenu.close()">
+                <md-menu-item>
+                    <md-button  ng-click="przejdzDo('en/myAccount')">
+                        <md-icon aria-label="..." class="material-icons">face</md-icon>
+                        {{kto.login}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                    <md-button ng-click="wyloguj();">
+                        <md-icon aria-label="..." class="material-icons">power_settings_new</md-icon>
+                        Log out
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <md-progress-linear md-mode="indeterminate" ng-show="loaderDanych" class="loaderWtoolbarze md-accent md-hue-3"></md-progress-linear>
+</md-toolbar>
+
+
+<md-card class="noShadow no-nimate">
+        <md-card-title style="padding:16px;">
+          <md-card-title-text>
+            <span class="md-headline" style="font-size:1.3em;text-align:center;">My Training Plans</span>
+          </md-card-title-text>
+        </md-card-title>
+
+    <md-card-content>
+        <p>
+            Here you can create a new plan and display the list of already existing plans in the form of tiles containing the information how many planned sessions are ahead.
+        </p>
+    </md-card-content>
+
+    <div style="text-align:center;"><md-icon class="material-icons">arrow_downward</md-icon></div>
+    
+    <md-card-title style="padding:16px;">
+          <md-card-title-text>
+            <span class="md-headline" style="font-size:1.3em;text-align:center;">My Training</span>
+          </md-card-title-text>
+    </md-card-title>
+
+    <md-card-content>
+        <p>Clicking on a tile with a chosen plan redirects you to the calendar. By choosing a date you add a new training session or move to an already existing session. The edit mode allows you to:
+            <ul>
+                <li>move chosen sessions for the next/previous day(s),</li>
+                <li>copy chosen session for next week,</li>
+                <li>delete sessions.(s)</li>
+            </ul>
+        </p>
+    </md-card-content>
+    
+    <div style="text-align:center;"><md-icon class="material-icons">arrow_downward</md-icon></div>
+    
+    <md-card-title style="padding:16px;">
+          <md-card-title-text>
+            <span class="md-headline" style="font-size:1.3em;text-align:center;">My Training Session</span>
+          </md-card-title-text>
+    </md-card-title>
+
+    <md-card-content>
+        <p>
+            In this sestion you add exercises for a particular day giving eg.: number of sets, intensity of each set, pauses between set and before the next exercise. The exercises you have added can be then combined into supersets or changed in order. You can take the ready-made session for a training and tick the sets you have completed. Other options available here are the alarm and the countdown before the next set or exercise.
+        </p>
+        <p>
+            TAKE NOTICE!<br/>
+            One plan allows you to have only one training session a day. If you want to have more sessions in one day, you have to create more training plans, eg. 'Morning Plan' and 'Evening Plan'
+        </p>
+    </md-card-content>
+    
+</md-card>
+
+<md-card class="noShadow no-nimate">
+        <md-card-title style="padding:16px;">
+          <md-card-title-text>
+            <span class="md-headline" style="font-size:1.3em;text-align:center;">My Trainers</span>
+          </md-card-title-text>
+        </md-card-title>
+
+    <md-card-content>
+        <p>
+            This section allows you to display a list of your personal trainers or search for a new trainer. If you want to have a new trainer, you send him/her an invitation, which has to be accepted. After that, your new trainer will be able to create your training plans.
+        </p>
+    </md-card-content>
+</md-card>
+
+<md-card class="noShadow no-nimate" ng-if="kto.typ==1">
+        <md-card-title style="padding:16px;">
+          <md-card-title-text>
+            <span class="md-headline" style="font-size:1.3em;text-align:center;">My Clients</span>
+          </md-card-title-text>
+        </md-card-title>
+
+    <md-card-content>
+        <p>
+            ONLY FOR PERSONAL TRAINERS. In this section you can display a list of your clients. To become somebody's personal trainer and be able to create their training plans, you must be first sent an invitation by your client which has to be accepted by you. Clicking on a tile with the name of your client will redirect you to his/her training plans. To create your client's plan, you foloow the same steps as in creating your own plans.
+        </p>
+    </md-card-content>
+</md-card>
+
+<md-card class="noShadow no-nimate">
+        <md-card-title style="padding:16px;">
+          <md-card-title-text>
+            <span class="md-headline" style="font-size:1.3em;text-align:center;">My Account</span>
+          </md-card-title-text>
+        </md-card-title>
+
+    <md-card-content>
+        <p>
+            This section allows you to display and edit the folowing:<br/>
+            <ul>
+                <li>login (username),</li>
+                <li>email address (An email address is optional. However if you forget your password, you won't be able to gain acces to your account),</li>
+                <li>default language (English/Polish),</li>
+                <li>user type ('Standard' - own training plans only, 'Personal Trainer' - additionally creating training plans for others),</li>
+                <li>color scheme (dark.light),</li>
+                <li>password change.</li>
+            </ul>
+        </p>
+    </md-card-content>
+</md-card>
+
+<md-card class="noShadow no-nimate">
+        <md-card-title style="padding:16px;">
+          <md-card-title-text>
+            <span class="md-headline" style="font-size:1.3em;text-align:center;">Legal</span>
+          </md-card-title-text>
+        </md-card-title>
+
+    <md-card-content layout="column" layout-gt-xs="row" layout-align="center center">
+    
+            <md-button ng-click="toggleEdycja()" class="no-animate">
+                terms
+            </md-button>
+            
+            <md-button ng-click="toggleEdycja()" class="no-animate">
+                cookies
+            </md-button>
+            
+            <md-button ng-click="toggleEdycja()" class="no-animate">
+                privacy
+            </md-button>
+
+    </md-card-content>
+</md-card>
+
+<md-toolbar ng-if="!ekranGtSm" layout="row" layout-align="space-between center" style="z-index:-999;opacity:0;">
+    <h1 class="md-toolbar-tools">tego nie widać, margines dla mobilnych o wielkosci toolbara</h1>
+</md-toolbar>
+
+<md-toolbar ng-if="!ekranGtSm" class="dolnyToolbar" layout="row" layout-align="space-between center">
+
+    <md-button class="md-icon-button no-animate" aria-label="empty"></md-button>
+
+    <md-button class="md-icon-button no-animate" aria-label="menu" ng-click="toggleRight()">
+        <md-icon class="material-icons">menu</md-icon>
+    </md-button>
+
+</md-toolbar>

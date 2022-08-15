@@ -1,0 +1,159 @@
+<md-dialog aria-label="edit excercise">
+  <form ng-cloak ng-submit="zapiszCwiczenie()">
+    <md-toolbar>
+      <div layout="row" layout-align="center center" class="md-toolbar-tools">
+        <h2 style="padding:0;" ng-if="lang=='en'"><span ng-if="edytowaneCwiczenie.id!=0">EDIT</span><span ng-if="edytowaneCwiczenie.id==0">NEW</span> EXCERCISE</h2>
+        <h2 style="padding:0;" ng-if="lang=='pl'"><span ng-if="edytowaneCwiczenie.id!=0">EDYCJA ĆWICZENIA</span><span ng-if="edytowaneCwiczenie.id==0">NOWE ĆWICZENIE</span></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+      <md-progress-linear ng-if="loaderDanychDialog" style="position:absolute;bottom:0;" class="md-accent" md-mode="indeterminate"></md-progress-linear>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+
+            <div layout="row" layout-gt-xs="row" layout-align="space-between">
+                <md-input-container>
+                    <label ng-if="lang=='en'">name</label>
+                    <label ng-if="lang=='pl'">nazwa</label>
+                    <input type="text" ng-model="edytowaneCwiczenie.nazwa_krotka" aria-label="..."/>
+                </md-input-container>
+                
+                <md-input-container>
+                    <label ng-if="lang=='en'">unit</label>
+                    <label ng-if="lang=='pl'">jednostka</label>                            
+                    <md-select ng-model="edytowaneCwiczenie.jedn_intens" aria-label="...">
+                        <md-option value="kg">kg</md-option>
+                        <md-option value="lbs">lbs</md-option>
+                        <md-option value="s" ng-if="lang=='en'">seconds</md-option>
+                        <md-option value="s" ng-if="lang=='pl'">sekundy</md-option>
+                        <md-option value="BW" ng-if="lang=='en'">body weight</md-option>
+                        <md-option value="BW" ng-if="lang=='pl'">masa ciała</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            
+            <div layout="row" layout-align="center">
+                <md-input-container style="width:100%;">
+                    <label ng-if="lang=='en'">description (optional)</label>
+                    <label ng-if="lang=='pl'">opis (opcjonalnie)</label>
+                    <!--<input type="text" ng-model="edytowaneCwiczenie.nazwa" aria-label="..."/>-->
+                    <textarea ng-model="edytowaneCwiczenie.nazwa" max-rows="4" aria-label="..."></textarea>
+                </md-input-container>
+            </div>
+            
+            <div layout="row" layout-gt-xs="row" layout-align="space-between">
+
+
+                
+                <md-input-container style="width:90px;">
+                    <label ng-if="lang=='en'">pauses (sec)</label>
+                    <label ng-if="lang=='pl'">przerwy (sek)</label>
+                    <input type="number" number-maker min="0" ng-model="edytowaneCwiczenie.przerwy_serie" aria-label="..."/>
+                </md-input-container>
+                
+                <md-input-container style="width:90px;">
+                    <label ng-if="lang=='en'">pause after</label>
+                    <label ng-if="lang=='pl'">przerwa po</label>
+                    <input type="number" number-maker min="0" ng-model="edytowaneCwiczenie.przerwa_po" aria-label="..."/>
+                </md-input-container>
+
+            </div>
+            
+            <div layout="row" layout-gt-xs="row" layout-align="center">
+                <div>
+                    <md-button class="md-icon-button" ng-click="zwiekszSerie()">
+                        <md-icon class="material-icons">add</md-icon>
+                    </md-button>
+
+                    <md-input-container style="width:40px;">
+                        <label ng-if="lang=='en'">sets</label>
+                        <label ng-if="lang=='pl'">l.serii</label>
+                        <input type="number" min="0" max="99" ng-model="edytowaneCwiczenie.serie" ng-readonly="true" aria-label="..."/>
+                    </md-input-container>
+                    
+                    <md-button class="md-icon-button" ng-click="zmniejszSerie()">
+                        <md-icon class="material-icons">remove</md-icon>
+                    </md-button>
+                </div>
+
+            </div>
+            
+            <div layout="row" layout-gt-xs="row" layout-align="center" layout-wrap>
+            
+                <div ng-repeat="s in edytowaneCwiczenie.ciezar track by $index" layout="column" style="border:1px solid rgba(128,128,128,0.3);margin:2px;border-radius:3px;">
+                    
+                    <div layout="row" layout-align="center">
+                        <md-button class="md-icon-button" style="margin-top:18px" ng-click="zwiekszPowtorzenia($index)">
+                            <md-icon class="material-icons">add</md-icon>
+                        </md-button>
+
+                        <md-input-container style="width:40px;margin-left:0;">
+                            <label ng-if="lang=='en'">reps</label>
+                            <label ng-if="lang=='pl'">l.powt</label>
+                            <input type="number" number-maker min="0" ng-model="edytowaneCwiczenie.powt[$index]" aria-label="..."/>
+                        </md-input-container>
+                        
+                        <md-button class="md-icon-button" style="margin-top:18px" ng-click="zmniejszPowtorzenia($index)">
+                            <md-icon class="material-icons">remove</md-icon>
+                        </md-button>
+                    </div>
+                    
+                    <div layout="row" layout-align="center" ng-if="edytowaneCwiczenie.jedn_intens!='BW'">
+                        <md-button class="md-icon-button" style="margin-top:18px" ng-click="zwiekszCiezar($index)">
+                            <md-icon class="material-icons">add</md-icon>
+                        </md-button>
+
+                        <md-input-container style="width:40px;margin-left:0;">
+                            <label ng-if="lang=='en'">{{edytowaneCwiczenie.jedn_intens}}</label>
+                            <label ng-if="lang=='pl'">{{edytowaneCwiczenie.jedn_intens}}</label>
+                            <input type="number" step="0.25" number-maker min="0" ng-model="edytowaneCwiczenie.ciezar[$index]" aria-label="..."/>
+                        </md-input-container>
+                        
+                        <md-button class="md-icon-button" style="margin-top:18px" ng-click="zmniejszCiezar($index)">
+                            <md-icon class="material-icons">remove</md-icon>
+                        </md-button>
+                    </div>
+
+                </div>
+            
+            </div>
+            
+            <!--<div layout="row" layout-gt-xs="row" layout-align="center" layout-wrap>
+            
+                <div ng-repeat="s in edytowaneCwiczenie.powt track by $index" flex="50">
+                    <md-button class="md-icon-button" ng-click="zwiekszSerie()">
+                        <md-icon class="material-icons">add</md-icon>
+                    </md-button>
+
+                    <md-input-container style="width:40px;">
+                        <label ng-if="lang=='en'">reps</label>
+                        <label ng-if="lang=='pl'">l.powt</label>
+                        <input type="number" min="0" max="99" ng-model="s"/>
+                    </md-input-container>
+                    
+                    <md-button class="md-icon-button" ng-click="zmniejszSerie()">
+                        <md-icon class="material-icons">remove</md-icon>
+                    </md-button>
+                </div>
+            
+            </div>-->
+
+            
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+
+        <md-button type="submit" aria-label="...">
+                    <md-icon aria-label="..." class="material-icons marginTop-3">save</md-icon>&nbsp;
+                    <span ng-if="lang=='en'">save</span>
+                    <span ng-if="lang=='pl'">zapisz</span>
+        </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>

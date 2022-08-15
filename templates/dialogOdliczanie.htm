@@ -1,0 +1,62 @@
+<md-dialog aria-label="edit excercise" md-theme="{{temat}}">
+  <form ng-cloak>
+    <md-toolbar>
+      <div layout="row" layout-align="center center" class="md-toolbar-tools">
+        <h2 style="padding:0;" ng-if="lang=='en'">NEXT</h2>
+        <h2 style="padding:0;" ng-if="lang=='pl'">NASTĘPNE</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()" ng-if="pozostalyCzas > 0 && tajmerZaczymany">
+          <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+      <md-progress-linear ng-if="loaderDanychDialog" style="position:absolute;bottom:0;" md-mode="indeterminate"></md-progress-linear>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column" layout-align="center center">
+
+            <div style="font-size:1.2em;text-align:center;" ng-repeat="s in odliczanaSeria track by $index">
+                {{s.nazwaKrotka}}<br/>{{s.powtCiezar}}
+            </div>
+      
+      
+        <div layout="column" layout-align="center center" style="height:128px">
+            <md-progress-circular md-mode="determinate" value="{{pozostalyCzasProcenty}}" md-diameter="128"></md-progress-circular>
+            
+            <div style="margin-top:-96px;font-size:0.8em;">
+                <span ng-if="lang=='en'">IN</span>
+                <span ng-if="lang=='pl'">ZA</span>
+            </div>
+            <div style="font-size:1.2em;">{{pozostalyCzas}}</div>
+            <div style="font-size:0.8em;">
+                <span ng-if="lang=='en'">SECONDS</span>
+                <span ng-if="lang=='pl'">SEKUND</span>
+            </div>
+        </div>
+           
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="column" layout-align="center center" style="margin-top:12px;">
+
+        <md-button ng-click="cancel()" aria-label="..." class="no-animate" style="margin-left:0" ng-if="pozostalyCzas <= 0">
+                    <md-icon aria-label="..." class="material-icons marginTop-3">fitness_center</md-icon>&nbsp;
+                    <span ng-if="lang=='en'">gotta go now!</span>
+                    <span ng-if="lang=='pl'">idę serię!</span>
+        </md-button>
+    
+        <md-button ng-click="StopTimer()" aria-label="..." class="no-animate" style="margin-left:0" ng-if="pozostalyCzas > 0 && !tajmerZaczymany">
+                    <md-icon aria-label="..." class="material-icons marginTop-3">motion_photos_paused</md-icon>&nbsp;
+                    <span ng-if="lang=='en'">pause</span>
+                    <span ng-if="lang=='pl'">wstrzymaj</span>
+        </md-button>
+
+        <md-button ng-click="StartTimer()" aria-label="..." class="no-animate" style="margin-left:0" ng-if="pozostalyCzas > 0 && tajmerZaczymany">
+                    <md-icon aria-label="..." class="material-icons marginTop-3">motion_photos_on</md-icon>&nbsp;
+                    <span ng-if="lang=='en'">resume</span>
+                    <span ng-if="lang=='pl'">wznów</span>
+        </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>

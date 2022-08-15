@@ -1,0 +1,51 @@
+<md-dialog aria-label="change password">
+  <form ng-cloak ng-submit="odzyskajHaslo()">
+    <md-toolbar>
+      <div layout="row" layout-align="center center" class="md-toolbar-tools">
+        <h2 style="padding:0;" ng-if="lang=='en'">Password recovery</h2>
+        <h2 style="padding:0;" ng-if="lang=='pl'">Odzyskiwanie hasła</span></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+      <md-progress-linear ng-if="loaderDanychDialog" style="position:absolute;bottom:0;" class="md-accent" md-mode="indeterminate"></md-progress-linear>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column" layout-align="space-between center">
+
+        <div ng-if="lang=='en'">
+            Password recovery is only possible if an e-mail address has been provided during registration process or added in 'My Account' section.
+        </div>
+        <div ng-if="lang=='pl'">
+            Odzyskanie hasła jest możliwe tylko w przypadku gdy podano adres e-mail podczas rejestracji lub uzupełniono go w sekcji 'Moje konto'.
+        </div>
+        
+        <md-input-container>
+            <label ng-if="lang=='en'">type your login</label>
+            <label ng-if="lang=='pl'">podaj login</label>
+            <input type="text" ng-model="odzysk_login" aria-label="..."/>
+        </md-input-container>
+        
+        <md-input-container>
+            <label ng-if="lang=='en'">typ e-mail address</label>
+            <label ng-if="lang=='pl'">podaj edres e-mail</label>
+            <input type="text" ng-model="odzysk_email" aria-label="..."/>
+        </md-input-container>
+
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+
+        <md-button type="submit" aria-label="...">
+                    <md-icon aria-label="..." class="material-icons marginTop-3">lock_reset</md-icon>&nbsp;
+                    <span ng-if="lang=='en'">send an e-mail</span>
+                    <span ng-if="lang=='pl'">wyślij e-mail</span>
+        </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,283 @@
+ <!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+        
+        <title>PlanThisSh!t</title>
+        <!-- Angular Material style sheet -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.1/angular-material.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:wght@300,400,500,700&subset=latin-ext" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles/multipleDatePicker.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="styles/custom.multiple-date-picker.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="styles/main.css?v=2" media="screen"/>
+        <link rel="icon" type="image/png" href="styles/planthisshitfavicon.png">
+        <!-- Angular Material requires Angular.js Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-aria.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-messages.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-scroll.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-touch.min.js"></script>-->
+        
+        <!-- required for ng-bind-html to work properly-->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-sanitize.min.js"></script>-->
+
+        <!-- Angular Material Library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.1/angular-material.min.js"></script>
+        
+        <!-- multikalendarz -->
+        <script type="text/javascript" src="js/multipleDatePicker.js"></script>
+        <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
+        
+        <!-- moje librarie -->
+        <script src="js/main.js"></script>
+        <script src="js/mojeKonto.js"></script>
+        <script src="js/mojeTreningi.js"></script>
+        <script src="js/trening.js"></script>
+        <script src="js/sesja.js"></script>
+        <script src="js/moiKlienci.js"></script>
+        <script src="js/klientaTreningi.js"></script>
+        <script src="js/moiTrenerzy.js"></script>
+    </head>
+
+<body ng-app="trenuj" ng-controller="mainCtrl" md-theme="{{temat}}" layout-fill layout="row" layout-align="center start" ng-cloak>
+
+    <div ng-if="!kto && !stateIsLoading" class="stronaPowitalna" ng-controller="loginCtrl" layout="row" layout-align-gt-sm="center center" layout-fill layout-wrap>
+        
+        <div layout="row" layout-wrap layout-align="stretch stretch" style="padding:16px;">
+        
+        <div flex="100" flex-gt-sm="50" class="oNas" md-colors="::{ background: 'primary-500'}">
+            <h1 style="color:white;" layout="column" layout-align="center center">PlanThisSh!t</h1>
+            <div flex layout="row" layout-align="center"><img src="styles/planthisshitlogo2.png" class="logo" alt="logo"/></div>
+            <span class="no-animate" style="color:white;" ng-if="lang!='en'">PlanThisSh!t, czyli zaplanuj to gunwo - to webapka do planów treningowych, dla ćwiczących oraz trenerów rozpisujących plany swoim podopiecznym. Maksymalnie intuicyjna i bez zbędnych udziwnień.</span>
+            <span class="no-animate" style="color:white;" ng-if="lang=='en'">PlanThisSh!t is a webapp for creating workout schedules. For averege Joes and personal trainers creating workout plans for their clients. Simple and intuitive to the maximum.</span>
+        </div>
+        
+        <div ng-show="!rejestracja" flex="100" flex-gt-sm="50" layout="row" layout-align="center stretch" class="logowanie" style="background-color:#fff" md-theme="default">
+
+                <div layout="column" flex="grow" layout-align="end space-between">
+                    <!--<div flex layout="row" layout-align="center"><img src="styles/planthisshitlogo2.png" class="logo" alt="logo"/></div>-->
+                    <form ng-submit="zaloguj()">
+                    <div layout="row" layout-align="center">
+                        <md-input-container class="szer100pro margin8">
+                            <label ng-if="lang=='en'">username</label>
+                            <label ng-if="lang!='en'">nazwa użytkownika</label>
+                            <input type="text" ng-model="login" aria-label="username"/>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-align="center" ng-hide="widoczneHasloLogowanie" class="no-animate">
+                        <md-input-container class="szer100pro margin8">
+                            <label ng-if="lang=='en'">password</label>
+                            <label ng-if="lang!='en'">hasło</label>
+                            <input type="password" ng-model="haslo" aria-label="password" class="inputHaslowy"/>
+                            <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloLogowanie();">visibility_off</md-icon>
+                        </md-input-container>
+                    </div>
+                    
+                    <div layout="row" layout-align="center" ng-show="widoczneHasloLogowanie" class="no-animate">
+                        <md-input-container class="szer100pro margin8">
+                            <label ng-if="lang=='en'">password</label>
+                            <label ng-if="lang!='en'">hasło</label>
+                            <input type="text" ng-model="haslo" aria-label="password" class="inputHaslowy"/>
+                            <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloLogowanie();">visibility</md-icon>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" layout-align="center">
+                        <md-button type="submit" class="md-primary szer100pro" aria-label="login" layout="row" layout-align="center center">
+                            <span class="no-animate" ng-if="lang=='en' && !loader">Log in</span>
+                            <span class="no-animate" ng-if="lang!='en' && !loader">Zaloguj</span>
+                            <span ng-if="loader" class="no-animate"><md-progress-circular md-diameter="28"></md-progress-circular></span>
+                        </md-button>
+                    </div>
+                    </form>
+
+                    
+                    <div layout="row" layout-align="center">
+                        <md-button class="md-accent md-hue-1 szer100pro" aria-label="login" layout="row" layout-align="center center" ng-click="odzyskajHasloDialog($event)">
+                            <span class="no-animate" ng-if="lang=='en'">forgot password?</span>
+                            <span class="no-animate" ng-if="lang!='en'">nie pamiętasz hasła?</span>
+                        </md-button>
+                    </div>
+
+                    <div layout="row" layout-align="center">
+                        <md-button ng-click="rejestracjaToggle()" class="md-primary md-primary md-raised noShadow szer100pro" aria-label="open registration" style="color:#fff;">
+                            <span class="no-animate" ng-if="lang=='en'">Create new account</span>
+                            <span class="no-animate" ng-if="lang!='en'">Zarejestruj się</span>
+                        </md-button>
+                    </div>
+                </div>
+
+        </div>
+        
+        <div ng-show="rejestracja" flex="100" flex-gt-sm="50" layout="row" layout-align="center center" class="rejestracja" md-theme="default">
+           <div layout="column" flex class="noShadow">
+                
+                <md-toolbar layout="row" layout-align="space-between center" style="background-color:#fff;border-radius:5px;">
+                    <h1 ng-if="lang!='en'" class="md-toolbar-tools" style="color:#777;">Rejestracja</h1>
+                    <h1 ng-if="lang=='en'" class="md-toolbar-tools" style="color:#777;">Registration</h1>
+                    <md-button ng-click="rejestracjaToggle()" class="md-icon-button" aria-label="close registration" style="color:#777;">
+                        <md-icon class="material-icons" style="color:#777;">close</md-icon>
+                    </md-button>
+                </md-toolbar>
+                
+                <div layout="column" class="logowanie">
+
+                    <form ng-submit="zarejestruj()">
+                    <div layout="row" layout-align="center" >
+                        <md-input-container class="szer100pro margin8">
+                            <label ng-if="lang=='en'">username</label>
+                            <label ng-if="lang!='en'">nazwa użytkownika</label>
+                            <input type="text" ng-model="rej_login" aria-label="username"/>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" layout-align="center">
+                        <md-input-container class="szer100pro margin8">
+                            <label ng-if="lang=='en'">e-mail address (not necessary)</label>
+                            <label ng-if="lang!='en'">adres e-mail (opcjonalnie)</label>
+                            <input type="email" ng-model="rej_email" aria-label="e-mail"/>
+                        </md-input-container>
+                    </div>
+                    
+                    <div layout="row" layout-align="center" ng-hide="widoczneHasloRejestracja" class="no-animate">
+                        <md-input-container class="szer100pro margin8">
+                            <label ng-if="lang=='en'">password</label>
+                            <label ng-if="lang!='en'">hasło</label>
+
+                            <input type="password" ng-model="rej_haslo" aria-label="password" class="inputHaslowy"/>
+                            <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloRejestracja();">visibility_off</md-icon>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" layout-align="center" ng-show="widoczneHasloRejestracja" class="no-animate">
+                        <md-input-container class="szer100pro margin8">
+                            <label ng-if="lang=='en'">password</label>
+                            <label ng-if="lang!='en'">hasło</label>
+                            
+                            <input type="text" ng-model="rej_haslo" aria-label="password" class="inputHaslowy"/>
+                            <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloRejestracja();">visibility</md-icon>
+                        </md-input-container>
+                    </div>
+                    
+                    <div layout="row" layout-align="center" style="height:50px">
+                        <md-input-container class="szer100pro margin8 no-animate" ng-hide="widoczneHasloRejestracja">
+                            <label ng-if="lang=='en'">confirm password</label>
+                            <label ng-if="lang!='en'">potwierdź hasło</label>
+                            <input type="password" ng-model="rej_potw_haslo" aria-label="confirm password"/>
+                        </md-input-container>
+                    </div>
+
+                    <div layout="row" layout-align="center">
+                        <md-button type="submit" class="md-primary szer100pro" layout="row" layout-align="center center" aria-label="register">
+                            <span class="no-animate" ng-if="lang=='en' && !loader">Create an account</span>
+                            <span class="no-animate" ng-if="lang!='en' && !loader">Załóż konto</span>
+                            <span ng-if="loader" class="no-animate"><md-progress-circular md-diameter="28"></md-progress-circular></span>
+                        </md-button>
+                    </div>
+                    </form>
+                   
+                </div>
+            </div>
+        </div>
+        
+        </div>
+        
+        <div layout="column" layout-align="center center" class="stopka" flex>
+            <div flex="100" layout="row" layout-align="center center" style="padding-bottom:16px;">
+                <span><a href="" ng-click="langZmiana('en')">EN</a> | <a href="" ng-click="langZmiana('pl')">PL</a></span>
+            </div>  
+            <div flex="100" layout="row" layout-align="center center" ng-if="lang!='en'" class="no-animate">
+                <span><a style="color:#ffffff50;" href="">Regulamin</a> <a style="color:#ffffff50;" href="">Ciasteczka</a> <a style="color:#ffffff50;" href="">Prywatność</a></span>
+            </div>
+            <div flex="100" layout="row" layout-align="center center" ng-if="lang=='en'" class="no-animate">
+                <span><a style="color:#ffffff50;" href="">Terms</a> <a style="color:#ffffff50;" href="">Cookies</a> <a style="color:#ffffff50;" href="">Privacy</a></span>
+            </div>
+        </div>
+        
+    </div>
+    
+
+
+    <!--<md-sidenav ng-if="kto" class="md-sidenav-right" md-component-id="right" layout="row" layout-align="end stretch" style="height:100vh;position:fixed;bottom:0px;">-->
+    <md-card class="menuTelefonowe" ng-if="kto" layout="row" layout-align="end stretch" ng-class="{'menuTelefonowePokaz':pokaMenuTelefonowe===true}">
+
+        <div flex layout="column" layout-align="end end" class="sideNavRobiProblemy no-animate">
+
+            <div class="md-toolbar-tools no-animate" ng-click="przejdzDo(lang+'/'+l.link)" layout-align="end center" ng-repeat="l in linki | orderBy:'$index':true">
+                <span class="textAlignRight" ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link!='myClients' && lang=='pl'">{{l.nazwa_pl}}</span>
+                <span class="textAlignRight" ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link!='myClients' && lang=='en'">{{l.nazwa_en}}</span>
+                <span ng-if="l.link!='myClients'"><md-icon aria-label="..." class="material-icons">{{l.ikona}}</md-icon></span>
+                
+                <span class="textAlignRight" ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link=='myClients' && kto.typ=='1' && lang=='pl'">{{l.nazwa_pl}}</span>
+                <span class="textAlignRight" ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link=='myClients' && kto.typ=='1' && lang=='en'">{{l.nazwa_en}}</span>
+                <span ng-if="l.link=='myClients' && kto.typ=='1'"><md-icon aria-label="..." class="material-icons">{{l.ikona}}</md-icon></span>
+                
+                <div class="naroznik" ng-if="l.link=='myClients' && kto.typ=='1' && ilePotencjalnychKlientow > 0" md-colors="::{ background: 'accent-300' }">{{ilePotencjalnychKlientow}}</div>
+            </div>
+
+        </div>
+        
+        <div layout="column" layout-align="space-between center" md-colors="::{ background: 'primary-500' }" style="width:56px;">
+            <md-toolbar layout="column" flex="100" layout-align="space-between center" style="padding:8px;">
+            <div><img src="styles/planthisshitlogo2.png" class="logo3 palec" alt="logo" ng-click="przejdzDo(lang+'/home')"/></div>
+            <h1 class="md-toolbar-tools palec" style="transform: rotate(90deg);" ng-click="przejdzDo(lang+'/home')">PlanThisSh!t</h1>
+                <md-button ng-click="toggleRight()" class="md-icon-button" aria-label="edit">
+                    <md-icon aria-label="..." class="material-icons">close</md-icon>
+                </md-button>
+            </md-toolbar>
+        </div>
+
+    <!--</md-sidenav>-->
+    </md-card>
+    
+    <section ng-if="kto" layout="row" flex style="height:100vh;overflow-x:hidden;">
+
+        <md-sidenav style="min-height:100vh;"
+            class="md-sidenav-left"
+            md-component-id="left"
+            md-is-locked-open="$mdMedia('gt-sm')">
+
+            <md-toolbar class="md-theme-indigo">
+                <h1 class="md-toolbar-tools palec" layout="row" layout-align="start center" ng-click="przejdzDo(lang+'/home')"><img src="styles/planthisshitlogo2.png" class="logo2" alt="logo"/><span>PlanThisSh!t</span></h1>
+            </md-toolbar>
+            <div flex layout="column" layout-align="start start" class="sideNavRobiProblemy no-animate">
+                
+                <div class="md-toolbar-tools no-animate" ng-click="przejdzDo(lang+'/'+l.link)" layout-align="start center" ng-repeat="l in linki" ng-class="aktualnyUrl == '/'+lang+'/'+l.link ? 'aktualnyUrl' : 'pustaKlasaTerefere'">
+                    <span ng-if="l.link!='myClients'"><md-icon aria-label="..." class="material-icons">{{l.ikona}}</md-icon></span>
+                    <span ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link!='myClients' && lang=='pl'">{{l.nazwa_pl}}</span>
+                    <span ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link!='myClients' && lang=='en'">{{l.nazwa_en}}</span>
+                    
+                    <span ng-if="l.link=='myClients' && kto.typ=='1'"><md-icon aria-label="..." class="material-icons">{{l.ikona}}</md-icon></span>
+                    <span ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link=='myClients' && kto.typ=='1' && lang=='pl'">{{l.nazwa_pl}}</span>
+                    <span ng-class="temat === 'default' ? 'md-dark' : 'md-light'" ng-if="l.link=='myClients' && kto.typ=='1' && lang=='en'">{{l.nazwa_en}}</span>
+                    
+                    <div class="naroznikLewy" ng-if="l.link=='myClients' && kto.typ=='1' && ilePotencjalnychKlientow > 0" md-colors="::{ background: 'accent-300' }">{{ilePotencjalnychKlientow}}</div>
+                </div>
+                
+            </div>
+        
+        </md-sidenav>
+        
+        <md-content flex>
+        
+            <div ng-view id="ngwju"></div>
+            
+        </md-content>
+
+    </section>
+
+
+    
+    <div ng-show="stateIsLoading" layout="column" flex layout-align="center center" class="progressBarFixed md-accent md-hue-3">
+        <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+    </div>
+    
+</body>
+</html> 

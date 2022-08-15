@@ -1,0 +1,233 @@
+<md-toolbar layout="row" layout-align="space-between center" md-colors="temat == 'ciemny' ? {background: 'grey-800'} : {background: 'grey-A100'}">
+    <h1 ng-if="!ekranGtSm" class="md-toolbar-tools">
+        <span ng-if="lista.trening.cwiklacz.login == kto.login">Mój plan treningowy</span>
+        <span ng-if="lista.trening.cwiklacz.login != kto.login">{{lista.trening.cwiklacz.login}} - plan treningowy</span>
+    </h1>
+
+    <div ng-if="ekranGtSm" layout="row" layout-align="start">
+        
+        <md-button ng-if="!edycja && lista.trening.cwiklacz.login == kto.login" ng-click="przejdzDo(lang+'/myTrainings')" class="no-animate">
+            <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">arrow_back</md-icon>&nbsp;
+            <span>powrót do listy moich planów</span>
+        </md-button>
+        
+        <md-button ng-if="!edycja && lista.trening.cwiklacz.login != kto.login" ng-click="przejdzDo(lang+'/clientTrainings/'+lista.trening.cwiklacz.id)" class="no-animate">
+            <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">arrow_back</md-icon>&nbsp;
+            <span>powrót do listy planów klienta</span>
+        </md-button>
+        
+        <md-button ng-if="!edycja && lista.trening" ng-click="toggleEdycja()" class="no-animate">
+            <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">edit</md-icon>&nbsp;
+            <span>edytuj</span>
+        </md-button>
+
+        <md-button ng-if="edycja && lista.trening && idTreningu!='0'" ng-click="toggleEdycja();pobierzListe(lista.trening.id,wyswietlanyMiesiac.format('YYYY-MM-DD'))" class="no-animate">
+            <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">cancel</md-icon>&nbsp;
+            <span>anuluj edycję</span>
+        </md-button>
+        
+        <div ng-if="edycja && lista.trening.sesje && idTreningu!='0'" hide show-md layout="row" layout-align="center center">
+            <md-button class="md-icon-button no-animate" aria-label="move for previous days" ng-click="przesunSesjeDoTylu($event)">
+                <md-tooltip md-direction="top">przesuń na poprzednie dni</md-tooltip>
+                <md-icon class="material-icons" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">skip_previous</md-icon>
+            </md-button>
+            
+            <md-button class="md-icon-button no-animate" aria-label="move for next days" ng-click="przesunSesjeDoPrzodu($event)">
+                <md-tooltip md-direction="top">przesuń na następne dni</md-tooltip>
+                <md-icon class="material-icons" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">skip_next</md-icon>
+            </md-button>
+            
+            <md-button class="md-icon-button no-animate" aria-label="copy for next week" ng-click="kopiujNaNastepnyTydzien($event)">
+                <md-tooltip md-direction="top">kopiuj na następny tydzień</md-tooltip>
+                <md-icon class="material-icons" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">dynamic_feed</md-icon>
+            </md-button>
+            
+            <md-button class="md-icon-button no-animate" aria-label="delete selected" ng-click="usunSesje($event)">
+                <md-tooltip md-direction="top">usuń zaznaczone</md-tooltip>
+                <md-icon class="material-icons" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">delete</md-icon>
+            </md-button>
+        </div>
+        <div ng-if="edycja && lista.trening.sesje && idTreningu!='0'" hide show-gt-md layout="row">
+            <md-button ng-click="przesunSesjeDoTylu($event)" class="no-animate">
+                <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">skip_previous</md-icon>&nbsp;<span>przesuń na poprz. dni</span>
+            </md-button>
+            <md-button ng-click="przesunSesjeDoPrzodu($event)" class=no-animate">        
+                <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">skip_next</md-icon>&nbsp;<span>przesuń na nast. dni</span>
+            </md-button>
+            <md-button ng-click="kopiujNaNastepnyTydzien($event)" class="no-animate">
+                <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">dynamic_feed</md-icon>&nbsp;<span>kopiuj na nast. tydz.</span>
+            </md-button>
+            <md-button ng-click="usunSesje($event)" class="no-animate">
+                <md-icon aria-label="..." class="material-icons marginTop-3" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">delete</md-icon>&nbsp;<span>usuń</span>
+            </md-button>
+        </div>
+        
+    </div>
+            
+    <div layout="row" layout-align="end center">
+        <md-menu>
+        <md-button aria-label="Open menu with custom trigger" ng-click="$mdMenu.open()" style="min-width:60px;margin:6px;">
+            <md-icon aria-label="..." class="material-icons" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">arrow_drop_down</md-icon>
+            <md-icon aria-label="..." class="material-icons" ng-class="temat === 'default' ? 'md-dark' : 'md-light'">person</md-icon>
+            
+        </md-button>
+        <md-menu-content ng-mouseleave="$mdMenu.close()">
+            <md-menu-item>
+            <md-button ng-click="przejdzDo(lang+'/myAccount')">
+                <md-icon aria-label="..." class="material-icons">face</md-icon>
+                {{kto.login}}
+            </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item>
+            <md-button ng-click="wyloguj();">
+                <md-icon aria-label="..." class="material-icons">power_settings_new</md-icon>
+                Wyloguj
+            </md-button>
+            </md-menu-item>
+        </md-menu-content>
+        </md-menu>
+        
+    </div>
+    <md-progress-linear md-mode="indeterminate" ng-show="loaderDanych" class="loaderWtoolbarze md-accent md-hue-3"></md-progress-linear>
+</md-toolbar>
+
+<md-card class="noShadow" ng-if="lista.trening">
+    <md-card-content layout="row" layout-align="start stretch" style="padding-left:0;padding-right:0;">
+        <div layout="row" layout-wrap>
+
+            <md-input-container class="marginBottom-0 marginLeft-16">
+                <label>nazwa planu</label>
+                <input type="text" ng-model="lista.trening.nazwa" aria-label="name" ng-disabled="!edycjaNazwyIno"/>
+            </md-input-container>
+            
+            <md-input-container ng-if="kto.typ==1" class="marginBottom-0 marginLeft-16">
+                <label>cwiczący</label>
+                <input type="text" ng-model="lista.trening.cwiklacz.login" aria-label="athlete" ng-disabled="true"/>
+            </md-input-container>
+            
+            <md-input-container ng-if="kto.typ==0" class="marginBottom-0 marginLeft-16">
+                <label>trener</label>
+                <input type="text" ng-model="lista.trening.trener.login" aria-label="trainer" ng-disabled="true"/>
+            </md-input-container>
+        </div>
+                        
+            <!--<div flex="70" flex-gt-xs="40" layout="row">-->
+                <!--<md-input-container class="marginBottom-0">
+                <md-checkbox ng-model="lista.trening.aktywny" aria-label="active" ng-true-value="1" ng-false-value="0" ng-disabled="!edycja">
+                    currently working with this program?
+                </md-checkbox>
+                </md-input-container>-->
+                
+                <!--<md-input-container ng-if="lista.trening.id_cwiklacza!=lista.trening.id_trenera && kto.typ=='1'" class="marginBottom-0">
+                <md-checkbox ng-model="lista.trening.edycja" aria-label="edit" ng-true-value="1" ng-false-value="0" ng-disabled="!edycja">
+                    client can edit
+                </md-checkbox>
+                </md-input-container>-->
+                
+                <!--<md-input-container class="marginBottom-0">
+                <md-checkbox ng-model="lista.trening.publiczny" aria-label="public" ng-true-value="1" ng-false-value="0" ng-disabled="!edycja">
+                    public
+                </md-checkbox>
+                </md-input-container>-->
+            <!--</div>-->
+            
+        <div layout="column" layout-align="start end" flex>
+            
+            <md-button ng-click="toggleEdycjaNazwyIno()" ng-if="!edycjaNazwyIno" class="md-icon-button no-animate" style="margin:-10px 0 0 0;">
+                <md-icon aria-label="..." class="material-icons">edit</md-icon>
+            </md-button>
+            
+            <md-button ng-click="zapiszTrening($event)" ng-if="edycjaNazwyIno && lista.trening" class="md-icon-button no-animate" style="margin:-10px 0 0 0;">
+                <md-icon aria-label="..." class="material-icons">save</md-icon>
+            </md-button>
+            
+        </div>
+        
+            <!--<div flex="30" flex-gt-xs="20" layout="row" layout-align="end center">
+                <md-button ng-if="edycja && lista.trening" ng-click="zapiszTrening($event)" class="md-raised md-primary noShadow">
+                    <md-icon aria-label="..." class="material-icons marginTop-3">save</md-icon>&nbsp;
+                    <span>save</span>
+                </md-button>
+            </div>-->
+
+    </md-card-content>
+</md-card>
+
+<md-card class="noShadow" ng-show="lista.trening && lista.trening.id!='0'">
+    <md-card-content layout="row" layout-align="center">
+        <div ng-if="!edycja" class="no-animate">Przejdź do sesji treningowej na dany dzień lub utwórz nową wybierając odpowiednią datę</div>
+        <div ng-if="edycja" class="no-animate">Wybierz sesje treningowe, aby je skopiować, przenieść lub usunąć (możliwy multiwybór)</div>
+    </md-card-content>
+    <multiple-date-picker highlight-days="lista.trening.sesje" ng-model="wybraneDaty" day-click="wyborDnia" month-changed="zmianaMiesiaca" show-days-of-surrounding-months="true"></multiple-date-picker>
+
+    <!--<div ng-if="edycja && lista.trening.sesje" layout="row" layout-align="center center" layout-wrap>
+        <md-button ng-click="przesunSesjeDoTylu($event)" class="md-raised md-primary noShadow">
+            <md-icon aria-label="..." class="material-icons marginTop-3">skip_previous</md-icon>&nbsp;<span>move for previous day</span>
+        </md-button>
+        <md-button ng-click="przesunSesjeDoPrzodu($event)" class="md-raised md-primary noShadow">
+            <md-icon aria-label="..." class="material-icons marginTop-3">skip_next</md-icon>&nbsp;<span>move for next day</span>
+        </md-button>
+        <md-button ng-click="kopiujNaNastepnyTydzien($event)" class="md-raised md-primary noShadow">
+            <md-icon aria-label="..." class="material-icons marginTop-3">dynamic_feed</md-icon>&nbsp;<span>copy for next week</span>
+        </md-button>
+        <md-button ng-click="usun($event)" class="md-raised md-primary noShadow">
+            <md-icon aria-label="..." class="material-icons marginTop-3">delete</md-icon>&nbsp;<span>delete</span>
+        </md-button>
+    </div>-->
+    
+</md-card>
+
+<!--{{idki}} === {{wybraneDaty}} -->
+
+<md-toolbar ng-if="!ekranGtSm" layout="row" layout-align="space-between center" style="z-index:-999;opacity:0;">
+    <h1 class="md-toolbar-tools">tego nie widać, margines dla mobilnych o wielkosci toolbara</h1>
+</md-toolbar>
+
+<md-toolbar ng-if="!ekranGtSm" class="dolnyToolbar" layout="row" layout-align="space-between center">
+
+    <md-button ng-if="!edycja && lista.trening.cwiklacz.login == kto.login" class="md-icon-button no-animate" aria-label="back" ng-click="przejdzDo(lang+'/myTrainings')">
+        <md-tooltip md-direction="top">powrót do listy moich planów</md-tooltip>
+        <md-icon class="material-icons">arrow_back</md-icon>
+    </md-button>
+    
+    <md-button ng-if="!edycja && lista.trening.cwiklacz.login != kto.login" class="md-icon-button no-animate" aria-label="back" ng-click="przejdzDo(lang+'/clientTrainings/'+lista.trening.cwiklacz.id)">
+        <md-tooltip md-direction="top">powrót do listy planów klienta</md-tooltip>
+        <md-icon class="material-icons">arrow_back</md-icon>
+    </md-button>
+
+    <md-button ng-if="!edycja && lista.trening" class="md-icon-button no-animate" aria-label="edit" ng-click="toggleEdycja()">
+        <md-tooltip md-direction="top">edytuj</md-tooltip>
+        <md-icon class="material-icons">edit</md-icon>
+    </md-button>
+    
+    <md-button ng-if="edycja && lista.trening && idTreningu!='0'" class="md-icon-button no-animate" aria-label="cancel" ng-click="toggleEdycja();pobierzListe(lista.trening.id,wyswietlanyMiesiac.format('YYYY-MM-DD'))">
+        <md-tooltip md-direction="top">anuluj edycję</md-tooltip>
+        <md-icon class="material-icons">cancel</md-icon>
+    </md-button>
+    
+    <md-button ng-if="edycja && lista.trening && idTreningu!='0'" class="md-icon-button no-animate" aria-label="move for previous days" ng-click="przesunSesjeDoTylu($event)">
+        <md-tooltip md-direction="top">przesuń na poprzednie dni</md-tooltip>
+        <md-icon class="material-icons">skip_previous</md-icon>
+    </md-button>
+    
+    <md-button ng-if="edycja && lista.trening && idTreningu!='0'" class="md-icon-button no-animate" aria-label="move for next days" ng-click="przesunSesjeDoPrzodu($event)">
+        <md-tooltip md-direction="top">przesuń na następne dni</md-tooltip>
+        <md-icon class="material-icons">skip_next</md-icon>
+    </md-button>
+    
+    <md-button ng-if="edycja && lista.trening && idTreningu!='0'" class="md-icon-button no-animate" aria-label="copy for next week" ng-click="kopiujNaNastepnyTydzien($event)">
+        <md-tooltip md-direction="top">kopiuj na następny tydzień</md-tooltip>
+        <md-icon class="material-icons">dynamic_feed</md-icon>
+    </md-button>
+    
+    <md-button ng-if="edycja && lista.trening && idTreningu!='0'" class="md-icon-button no-animate" aria-label="delete selected" ng-click="usunSesje($event)">
+        <md-tooltip md-direction="top">usuń zaznaczone</md-tooltip>
+        <md-icon class="material-icons">delete</md-icon>
+    </md-button>
+    
+    <md-button class="md-icon-button no-animate" aria-label="menu" ng-click="toggleRight()">
+        <md-icon class="material-icons">menu</md-icon>
+    </md-button>
+
+</md-toolbar>

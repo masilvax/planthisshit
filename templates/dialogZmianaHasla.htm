@@ -1,0 +1,69 @@
+<md-dialog aria-label="change password">
+  <form ng-cloak ng-submit="zmienHaslo()">
+    <md-toolbar>
+      <div layout="row" layout-align="center center" class="md-toolbar-tools">
+        <h2 style="padding:0;" ng-if="lang=='en'">Password change</h2>
+        <h2 style="padding:0;" ng-if="lang=='pl'">Zmiana hasła</span></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+      <md-progress-linear ng-if="loaderDanychDialog" style="position:absolute;bottom:0;" class="md-accent" md-mode="indeterminate"></md-progress-linear>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column" layout-align="space-between">
+
+        <div>
+            <md-input-container ng-hide="widoczneHasloZmianaStare" class="no-animate">
+                <label ng-if="lang=='en'">old password</label>
+                <label ng-if="lang=='pl'">stare hasło</label>
+                <input type="password" ng-model="zmiana_hasla_stare" aria-label="..." class="inputHaslowy"/>
+                <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloZmianaStare()">visibility_off</md-icon>
+            </md-input-container>
+            
+            <md-input-container ng-show="widoczneHasloZmianaStare" class="no-animate">
+                <label ng-if="lang=='en'">old password</label>
+                <label ng-if="lang=='pl'">stare hasło</label>
+                <input type="text" ng-model="zmiana_hasla_stare" aria-label="..." class="inputHaslowy"/>
+                <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloZmianaStare()">visibility</md-icon>
+            </md-input-container>
+        </div>
+        <div>    
+            <md-input-container ng-hide="widoczneHasloZmianaNowe" class="no-animate">
+                <label ng-if="lang=='en'">new password</label>
+                <label ng-if="lang=='pl'">nowe hasło</label>
+                <input type="password" ng-model="zmiana_hasla_nowe" aria-label="..." class="inputHaslowy"/>
+                <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloZmianaNowe()">visibility_off</md-icon>
+            </md-input-container>
+
+            <md-input-container ng-show="widoczneHasloZmianaNowe" class="no-animate">
+                <label ng-if="lang=='en'">new password</label>
+                <label ng-if="lang=='pl'">nowe hasło</label>
+                <input type="text" ng-model="zmiana_hasla_nowe" aria-label="..." class="inputHaslowy"/>
+                <md-icon class="material-icons okoHaslowe palec" aria-label="..." ng-click="toggleWidoczneHasloZmianaNowe()">visibility</md-icon>
+            </md-input-container>
+        </div>
+        <div class="no-animate" style="height:70px;">
+            <md-input-container style="width:98%;" ng-hide="widoczneHasloZmianaNowe">
+                <label ng-if="lang=='en'">confirm password</label>
+                <label ng-if="lang=='pl'">potwierdź hasło</label>
+                <input type="password" ng-model="zmiana_hasla_nowe_potw" aria-label="..."/>
+            </md-input-container>
+        </div>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+
+        <md-button type="submit" aria-label="...">
+                    <md-icon aria-label="..." class="material-icons marginTop-3">lock_reset</md-icon>&nbsp;
+                    <span ng-if="lang=='en'">change pass</span>
+                    <span ng-if="lang=='pl'">zmień hasło</span>
+        </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>
